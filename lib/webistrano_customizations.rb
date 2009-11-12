@@ -7,7 +7,7 @@ module Webistrano
       @_fetch_hosts ||= JSON.parse(open(WebistranoConfig[:frontman_hosts_endpoint]).read)
     end
     
-    def set_app_pool_roles(role_name)
+    def set_app_pool_roles(config, role_name)
       # go fetch all the hosts from frontman
       # loop over all hosts and configure each for web, app, and db
       # [{"application_server"=>{"name"=>"test", "default"=>false, "updated_at"=>"2009-11-05T03:05:51Z", "id"=>1, "port"=>"80", "ip"=>"123.123.123.123", "staging"=>false, "active"=>true, "created_at"=>"2009-11-05T03:05:51Z"}}, {"application_server"=>{"name"=>"test2", "default"=>false, "updated_at"=>"2009-11-05T03:11:02Z", "id"=>4, "port"=>"80", "ip"=>"123.123.123.123", "staging"=>false, "active"=>true, "created_at"=>"2009-11-05T03:11:02Z"}}]
@@ -34,7 +34,7 @@ module Webistrano
         role_attr = r.role_attribute_hash
         
         if r.host.name == WebistranoConfig[:frontman_host_set_name]
-          set_app_pool_roles(r.name)
+          set_app_pool_roles(config, r.name)
         else
           if role_attr.blank?
               config.role r.name, r.hostname_and_port
