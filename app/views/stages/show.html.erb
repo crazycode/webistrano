@@ -1,7 +1,7 @@
 <div class="special_box">
   <div class="special_box_top"></div>
   <div class="special_box_middle deployments_box">
-	<% WebistranoConfig[:default_deployment_box].each do |box_item| %>
+	<% WebistranoConfig[:default_deployment_shortcuts].each do |box_item| %>
 	   <p><%= link_to  box_item.first, new_project_stage_deployment_path(current_project, @stage, :task => box_item.last), :class => 'arrow_link' %></p>
 	<% end %>
 

@@ -24,7 +24,7 @@ WebistranoConfig = {
   },
   
   # Tasks listed by default on a stage's main page. Entered here as [display_name, task_name]
-  :default_deployment_box => [
+  :default_deployment_shortcuts => [
     ['Deploy', 'deploy'],
     ['Deploy and migrate', 'deploy:migrations'],
     ['Restart app servers', 'deploy:restart'],
