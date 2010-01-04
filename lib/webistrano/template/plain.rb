@@ -23,6 +23,8 @@ module Webistrano
       TASKS =  <<-'EOS'
         # allocate a pty by default as some systems have problems without
         default_run_options[:pty] = true
+        ssh_options[:paranoid] = false
+        
       
         # set Net::SSH ssh options through normal variables
         # at the moment only one SSH key is supported as arrays are not
