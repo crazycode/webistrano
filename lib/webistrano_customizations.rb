@@ -15,11 +15,11 @@ module Webistrano
       
       if role_name.to_sym == :db
         # If the role is :db, we only use the first host, and make it a primary db server
-        config.role role_name, hosts.first["application_server"]["ip"], {:primary => true}
+        config.role role_name, hosts.first["ip"], {:primary => true}
       else
         hosts.each do |host|
           # TODO: switch to use host instead of ip
-          config.role role_name, host["application_server"]["ip"]
+          config.role role_name, host["ip"]
         end
       end
     end
