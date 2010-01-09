@@ -3,10 +3,7 @@
   <b>Name</b><br />
   <%= text_field 'project', 'name', :style =>'width:330px;' %>
 </p>
-<p>
-  <b>Project Type</b><br />
-  <%= select('project', 'template', @templates, { :include_blank => false }) %>
-</p>
+<%= hidden_field('project', 'template', :value => 'plain')%>
 <p>
   <b>Description</b><br />
   <%= text_area 'project', 'description', :style =>'width:330px; height: 100px' %>
@@ -36,19 +33,4 @@
    }
 
  </script>
-<% end %>
-<% content_for(:action_box) do %>
-<div class="small_box">
-  <div class="small_box_top"></div>
-  <div class="small_box_middle" style="min-height: 230px; *height: 230px;">
-		 <h3>Project Type:</h3>
-		   <% for template in @template_infos %>
-		     <div id="<%=h template.first %>_desc" style="display:none;">
-		         <b><%= template.first.to_s.titleize %>:</b><br />
-		         <%= template.last %>
-		     </div>
-		   <% end %>
-  </div>
-  <div class="small_box_bottom"></div>
-</div>
 <% end %>
