@@ -1,19 +1,24 @@
 class Project < ActiveRecord::Base
+  
+  CATEGORIES = ['Projects','Infrastructure']
+  
   has_many :stages, :dependent => :destroy, :order => 'name ASC'
   has_many :deployments, :through => :stages
   has_many :configuration_parameters, :dependent => :destroy, :class_name => "ProjectConfiguration", :order => 'name ASC'
   
   validates_uniqueness_of :name
-  validates_presence_of :name
+  validates_presence_of :name, :category
   validates_length_of :name, :maximum => 250
   validates_inclusion_of :template, :in => ProjectConfiguration.templates.keys
   
   after_create :create_template_defaults
   
-  attr_accessible :name, :description, :template, :archived
+  attr_accessible :name, :description, :template, :archived, :category
   
   named_scope :active, :conditions => { :archived => false }
   named_scope :by_name, :order => 'name ASC'
+  named_scope :in_category, lambda { |category_name| { :conditions => { :category => category_name } } }
+  named_scope :without_category, :conditions => ['category IS NULL OR category = ?','']
   
   # creates the default configuration parameters based on the template
   def create_template_defaults

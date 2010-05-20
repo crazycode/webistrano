@@ -26,6 +26,10 @@
 		  <%=h @project.template %>
 		</p>
 		<p>
+		    <b>Category:</b>
+		    <%= @project.category.titleize %> <%= '(Archived)' if @project.archived? %>
+        </p>
+		<p>
     <b>#Deployments:</b>
 	  <%=h @project.deployments.count %>
  		</p><br />
