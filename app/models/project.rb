@@ -10,7 +10,10 @@ class Project < ActiveRecord::Base
   
   after_create :create_template_defaults
   
-  attr_accessible :name, :description, :template
+  attr_accessible :name, :description, :template, :archived
+  
+  named_scope :active, :conditions => { :archived => false }
+  named_scope :by_name, :order => 'name ASC'
   
   # creates the default configuration parameters based on the template
   def create_template_defaults

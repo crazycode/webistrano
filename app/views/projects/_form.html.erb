@@ -8,6 +8,10 @@
   <b>Description</b><br />
   <%= text_area 'project', 'description', :style =>'width:330px; height: 100px' %>
 </p>
+<p>
+  <b>Archived?</b> <%= check_box 'project', 'archived' %>
+
+</p>
 
 
 <% content_for(:page_scripts) do %>
