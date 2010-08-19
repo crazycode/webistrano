@@ -6,14 +6,14 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 0, Project.count
     
     assert_nothing_raised{
-      p = Project.create!(:name => "Project Alpha", :template => 'rails') 
+      p = Project.create!(:name => "Project Alpha", :template => 'rails', :category => 'Projects') 
     }
     
     assert_equal 1, Project.count
   end
   
   def test_validation
-    p = Project.create(:name => "Project Alpha", :template => 'rails')
+    p = Project.create(:name => "Project Alpha", :template => 'rails', :category => 'Projects')
     assert p.save, p.errors.inspect + p.attributes.inspect
     
     # try to create another project with the same name
@@ -23,17 +23,17 @@ class ProjectTest < ActiveSupport::TestCase
     
     # try to create a project with a name that is too long
     name = "x" * 251
-    p = Project.new(:name => name, :template => 'rails')
+    p = Project.new(:name => name, :template => 'rails', :category => 'Projects')
     assert !p.valid?
     assert_not_nil p.errors.on("name")
     
     # make it pass
     name = name.chop
-    p = Project.new(:name => name, :template => 'rails')
+    p = Project.new(:name => name, :template => 'rails', :category => 'Projects')
     assert p.valid?
     
     # test template validation
-    p = Project.new(:name => "Project XXXX")
+    p = Project.new(:name => "Project XXXX", :category => 'Projects')
     p.template = 'bla_bla'
     assert !p.valid?
     assert_not_nil p.errors.on("template")
@@ -48,6 +48,7 @@ class ProjectTest < ActiveSupport::TestCase
     # choose a template on project creation
     p = Project.new(:name => "Project Alpha")
     p.template = 'rails'
+    p.category = 'Projects'
     p.save!
     
     # check that we now have a sample configuration
@@ -69,7 +70,7 @@ class ProjectTest < ActiveSupport::TestCase
   
   def test_tasks
     # choose a template on project creation
-    p = Project.new(:name => "Project Alpha")
+    p = Project.new(:name => "Project Alpha", :category => 'Projects')
     p.template = 'mongrel_rails'
     p.save!
     

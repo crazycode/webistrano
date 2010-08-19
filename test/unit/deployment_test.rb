@@ -186,35 +186,15 @@ class DeploymentTest < ActiveSupport::TestCase
     assert_equal expected_prompt_config, Deployment.find(dep.id).prompt_config
   end
   
-  def test_completion_alerts_per_mail_when_no_alert_emails_set
+  def test_completion_alerts_per_mail_on_error
     # prepare ActionMailer
     emails = prepare_email
     
-    @deployment = create_new_deployment(:stage => @stage)
-    
-    # no alert emails set
-    assert_nil @stage.alert_emails
-    @deployment.complete_with_error!
-    
-    # no alert was sent
-    assert emails.empty?
-  end
-  
-  def test_completion_alerts_per_mail_when_alert_emails_set_on_error
-    # prepare ActionMailer
-    emails = prepare_email
-    
-    @deployment = create_new_deployment(:stage => @stage)
-    
-    # alert emails set
-    @stage.alert_emails = "michael@example.com you@example.com"
-    @stage.save!
-    
-    assert_not_nil @stage.alert_emails
+    @deployment = create_new_deployment(:stage => @stage)        
     @deployment.complete_with_error!
     
     # alert was sent to both
-    assert_equal 2, emails.size
+    assert_equal 1, emails.size
   end
   
   def test_repeat

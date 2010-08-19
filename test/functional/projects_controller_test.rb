@@ -33,7 +33,7 @@ class ProjectsControllerTest < ActionController::TestCase
     
     Project.delete_all
     old_count = Project.count
-    post :create, :project => { :name => 'Project Alpha', :template => 'rails'}
+    post :create, :project => { :name => 'Project Alpha', :template => 'rails', :category => 'Projects'}
     assert_equal old_count, Project.count
     
     assert_response :redirect
@@ -44,7 +44,7 @@ class ProjectsControllerTest < ActionController::TestCase
     
     Project.delete_all
     old_count = Project.count
-    post :create, :project => { :name => 'Project Alpha', :template => 'rails'}
+    post :create, :project => { :name => 'Project Alpha', :template => 'rails', :category => 'Projects'}
     assert_equal old_count+1, Project.count
     
     assert_redirected_to project_path(assigns(:project))
@@ -76,7 +76,7 @@ class ProjectsControllerTest < ActionController::TestCase
   def test_non_admin_should_not_update_project
     @user = login
     
-    put :update, :id => @project.id, :project => { :name => 'Project Jochen', :template => 'mongrel_rails'}
+    put :update, :id => @project.id, :project => { :name => 'Project Jochen', :template => 'mongrel_rails', :category => 'Projects'}
     assert_response :redirect
     @project.reload
     assert_not_equal 'Project Jochen', @project.name
@@ -85,7 +85,7 @@ class ProjectsControllerTest < ActionController::TestCase
   def test_admin_should_update_project
     @user = admin_login
     
-    put :update, :id => @project.id, :project => { :name => 'Project Jochen', :template => 'mongrel_rails'}
+    put :update, :id => @project.id, :project => { :name => 'Project Jochen', :template => 'mongrel_rails', :category => 'Projects'}
     assert_redirected_to project_path(assigns(:project))
     @project.reload
     assert_equal 'mongrel_rails', @project.template
@@ -119,7 +119,7 @@ class ProjectsControllerTest < ActionController::TestCase
       get :new, :clone => @project.id
       assert_response :success
       assert_select "h2", "Clone project"
-      post :create, :clone => @project.id, :project => { :name => 'Project Alpha', :template => 'mongrel_rails'}
+      post :create, :clone => @project.id, :project => { :name => 'Project Alpha', :template => 'mongrel_rails', :category => 'Projects'}
       assert_response :redirect
     end
   end
