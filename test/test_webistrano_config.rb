@@ -35,5 +35,9 @@ WebistranoConfig = {
   # the endpoint that contains the JSON array of hosts that we can deploy to
   :frontman_hosts_endpoint => "http://localhost.localdomain/hosts.json",
   :frontman_host_set_name => "EC2-APP-POOL",
-  :default_deployment_shortcuts => []
+  :default_deployment_shortcuts => [],
+  
+  # For checking out repositories locally - allows us to do git log since last deploy
+  :local_repository_dir => '/tmp'
+  
 }
