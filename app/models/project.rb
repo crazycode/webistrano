@@ -66,7 +66,6 @@ class Project < ActiveRecord::Base
       new_stage = Stage.new
       new_stage.project = self
       new_stage.name = stage.name
-      new_stage.alert_emails = stage.alert_emails
       new_stage.save!
       
       stage.configuration_parameters.each do |conf|

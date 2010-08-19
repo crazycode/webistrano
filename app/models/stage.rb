@@ -12,7 +12,7 @@ class Stage < ActiveRecord::Base
   validates_presence_of :project, :name
   validates_inclusion_of :locked, :in => [0,1]
   
-  attr_accessible :name, :alert_emails
+  attr_accessible :name
 
   # fake attr (Hash) that hold info why deployment is not possible
   # (think model.errors lite)
@@ -20,27 +20,7 @@ class Stage < ActiveRecord::Base
   
   EMAIL_BASE_REGEX = '([^@\s\,\<\>\?\&\;\:]+)@((?:[\-a-z0-9]+\.)+[a-z]{2,})'
   EMAIL_REGEX = /^#{EMAIL_BASE_REGEX}$/i
-    
-  def validate
-    unless self.alert_emails.blank?
-      self.alert_emails.split(" ").each do |email|
-        unless email.match(EMAIL_REGEX)
-          self.errors.add('alert_emails', 'format is not valid, please seperate email addresses by space') 
-          break
-        end
-      end
-    end
-  end
-  
-  # wrapper around alert_emails, returns an array of email addresses
-  def emails
-    if self.alert_emails.blank?
-      []
-    else
-      self.alert_emails.split(" ")
-    end
-  end
-  
+        
   # returns an array of ConfigurationParameters that is a result of the projects configuration overridden by the stage config 
   def effective_configuration(key=nil) 
     project_configs = self.project.configuration_parameters.dup

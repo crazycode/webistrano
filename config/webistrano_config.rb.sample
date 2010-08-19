@@ -34,6 +34,9 @@ WebistranoConfig = {
   # Sender address for Webistrano emails
   :webistrano_sender_address => "webistrano@example.com",
   
+  # Deploy notices are sent to this address (no longer configured project-by-project)
+  :mail_recipient => "team@example.com",
+  
   # Sender and recipient for Webistrano exceptions
   :exception_recipients => "team@example.com",
   :exception_sender_address => "webistrano@example.com",
