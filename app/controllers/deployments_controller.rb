@@ -32,6 +32,11 @@ class DeploymentsController < ApplicationController
     @deployment = @stage.deployments.new
     @deployment.task = params[:task]
     
+    @lr = LocalRepository.find_or_create_by_stage_id(@stage.id)
+    @lr.update_code
+
+    @deployment.description = @lr.log
+
     if params[:repeat]
       @original = @stage.deployments.find(params[:repeat])
       @deployment = @original.repeat
