@@ -5,7 +5,7 @@ class LocalRepositoryTest < ActiveSupport::TestCase
   def setup
     @p = create_new_project
     @s = create_new_stage(:project => @p)
-    @repository = @s.configuration_parameters.create(:name => 'repository', :value => 'git@newsdev.ec2.nytimes.com:moder8.git')
+    @repository = @s.configuration_parameters.create(:name => 'repository', :value => 'git@server.com:application.git')
     @scm = @s.configuration_parameters.create(:name => 'scm', :value => 'git')
     @application = @s.configuration_parameters.create(:name => 'application', :value => 'moder8')
     @deploy_via = @s.configuration_parameters.create(:name => 'deploy_via', :value => ':remote_cache')
@@ -13,7 +13,7 @@ class LocalRepositoryTest < ActiveSupport::TestCase
   end
 
   def test_repository
-    assert_equal 'git@newsdev.ec2.nytimes.com:moder8.git', @local_repository.repository
+    assert_equal 'git@server.com:application.git', @local_repository.repository
   end
 
   def test_scm
