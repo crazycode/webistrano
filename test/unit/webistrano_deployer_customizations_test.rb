@@ -24,6 +24,9 @@ class Webistrano::DeployerTest < ActiveSupport::TestCase
     # prepare stage + roles
     @stage = create_new_stage
     
+    # require 'ruby-debug'
+    # debugger
+    # 
     web_role = @stage.roles.build(:name => 'web', :host_id => @fake_app_host.id, :primary => 1, :no_release => 0)
     web_role.save!
     assert !web_role.no_release?
@@ -78,9 +81,9 @@ class Webistrano::DeployerTest < ActiveSupport::TestCase
     # get things started
     deployer = Webistrano::Deployer.new( create_new_deployment(:stage => @stage) )
     
-    deployer.expects(:set_app_pool_roles).with('web')
-    deployer.expects(:set_app_pool_roles).with('app')
-    deployer.expects(:set_app_pool_roles).with('db')
+    deployer.expects(:set_app_pool_roles).with(mock_cap_config, 'web')
+    deployer.expects(:set_app_pool_roles).with(mock_cap_config, 'app')
+    deployer.expects(:set_app_pool_roles).with(mock_cap_config, 'db')
     
     deployer.invoke_task!
   end
