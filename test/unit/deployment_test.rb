@@ -186,14 +186,34 @@ class DeploymentTest < ActiveSupport::TestCase
     assert_equal expected_prompt_config, Deployment.find(dep.id).prompt_config
   end
   
+  def test_completion_alerts_for_production_stage
+    emails = prepare_email
+    
+    @stage.update_attributes!(:name => 'Production')
+    @deployment = create_new_deployment(:stage => @stage)        
+    @deployment.complete_successfully!
+    
+    assert_equal 1, emails.size  
+  end
+  
+  def test_no_completion_alerts_for_staging
+    emails = prepare_email
+    
+    @stage.update_attributes!(:name => 'Staging')
+    @deployment = create_new_deployment(:stage => @stage)        
+    @deployment.complete_successfully!
+    
+    assert emails.empty?
+  end
+  
   def test_completion_alerts_per_mail_on_error
     # prepare ActionMailer
     emails = prepare_email
     
+    @stage.update_attributes!(:name => 'Production')
     @deployment = create_new_deployment(:stage => @stage)        
     @deployment.complete_with_error!
     
-    # alert was sent to both
     assert_equal 1, emails.size
   end
   
