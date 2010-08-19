@@ -30,7 +30,7 @@ module Factories
       :name => random_string,
       :description => random_string,
       :category => 'Projects',
-      :template => 'rails'
+      :template => 'rails',
     }.update(options)
   
     p = Project.new
