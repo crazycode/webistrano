@@ -11,7 +11,11 @@ RAILS_GEM_VERSION = '2.3.4' unless defined? RAILS_GEM_VERSION
 require File.join(File.dirname(__FILE__), 'boot')
 
 # load Webistrano configuration
-require "#{RAILS_ROOT}/config/webistrano_config"
+if RAILS_ENV == 'test'
+  require "#{RAILS_ROOT}/test/test_webistrano_config"
+else
+  require "#{RAILS_ROOT}/config/webistrano_config"
+end
 
 Rails::Initializer.run do |config|
 
