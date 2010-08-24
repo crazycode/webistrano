@@ -44,6 +44,10 @@ module Webistrano
       configuration_for('application')
     end
 
+    def branch
+      configuration_for('branch') || 'master'
+    end
+
     def path
       return if application.nil?
       File.join(WebistranoConfig[:local_repository_dir], application)
@@ -55,11 +59,11 @@ module Webistrano
       end
     end
 
-    def git_pull
-      run_command("cd #{path} && git pull")
+    def update_existing_checkout
+      run_command("cd #{path} && git checkout #{branch} && git pull")
     end
 
-    def git_clone
+    def fresh_checkout
       run_command("cd #{WebistranoConfig[:local_repository_dir]} && git clone #{repository} #{application}")
     end
 
@@ -72,18 +76,18 @@ module Webistrano
 
       # application already checked out
       if repo_exists?
-        git_pull
+        update_existing_checkout
       else
-        git_clone
+        fresh_checkout
       end
     end
 
+    def fetch_log(since_until = '')
+      run_command("cd #{path} && git checkout #{branch} && git log --format=oneline #{since_until}")
+    end
+
     def log
-      output = if last_deployed_revision
-        run_command("cd #{path} && git log --format=oneline #{last_deployed_revision}..HEAD")
-      else
-        run_command("cd #{path} && git log --format=oneline")
-      end
+      output = last_deployed_revision ? fetch_log("#{last_deployed_revision}..HEAD") : fetch_log
       output.blank? ? "No commits since last deploy" : output
     end
 
