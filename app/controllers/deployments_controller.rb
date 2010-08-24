@@ -32,7 +32,7 @@ class DeploymentsController < ApplicationController
     @deployment = @stage.deployments.new
     @deployment.task = params[:task]
     
-    @lr = LocalRepository.find_or_create_by_stage_id(@stage.id)
+    @lr = Webistrano::LocalRepository.new(@stage)
     @lr.update_code
 
     @deployment.description = @lr.log
