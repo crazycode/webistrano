@@ -6,10 +6,10 @@ class Notification < ActionMailer::Base
     @@webistrano_sender_address = val
   end
 
-  def deployment(deployment, email)
-    @subject    = "Deployment of #{deployment.stage.project.name}/#{deployment.stage.name} finished: #{deployment.status}"
+  def deployment(deployment)
+    @subject    = "[#{deployment.stage.project.name}] #{deployment.stage.name.downcase} #{deployment.task} #{deployment.status if deployment.status != 'success'}"
     @body       = {:deployment => deployment}
-    @recipients = email
+    @recipients = WebistranoConfig[:mail_recipient]
     @from       = @@webistrano_sender_address
     @sent_on    = Time.now
     @headers    = {}

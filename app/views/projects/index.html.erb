@@ -9,18 +9,15 @@
 <% else %>
   <table class="sortable">
     <tr>
-      <th width="1%">Name</th>
-      <th width="96%">Description</th>
-      <th width="1%">#Stages</th>
-      <th width="1%">#Deploy.</th>
+      <th>Name</th>
+      <th>Category</th>
       <th width="1%">Created At</th>
+      <th colspan="3" width="20%"></th>
     </tr>
     <% for project in @projects %>
       <tr class="<%= cycle :even, :odd, :name => 'projects'  %>">
         <td><%= link_to h(project.name), project_path(project) %></td>
-        <td><%=h project.description %></td>
-        <td><%=h project.stages.count %></td>
-        <td><%=h project.deployments.count %></td>
+        <td><%= project.category.titleize %> <%= '(Archived)' if project.archived? %></td>
         <td><%=h project.created_at.to_s(:date_with_day) %></td>
         <td><%= link_to 'Edit', edit_project_path(project) %></td>
         <td><%= link_to 'Clone', clone_form_path(project) %></td>

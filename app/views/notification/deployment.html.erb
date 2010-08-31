@@ -1,23 +1,9 @@
-Deployment of <%= @deployment.stage.project.name %> / <%= @deployment.stage.name %> finished
-
-Task: <%= @deployment.task %>
-
-Revision: <%= @deployment.revision %>
-
-Status: <%= @deployment.status %>
-
-Started (UTC): <%= @deployment.created_at.utc.to_s(:log) %>
-
-Completed (UTC): <%= @deployment.completed_at.utc.to_s(:log) rescue nil %>
-
-
-Deployed by: <%= @deployment.user.login %>
-
-Comment: 
+<%= @deployment.user.login %> said:
 
 <%= @deployment.description %>
 
-
-Log:
+<% if @deployment.status != 'success' %>
+Trace:
 
 <%= @deployment.log.gsub('\n', "\n") rescue '' %>
+<% end %>

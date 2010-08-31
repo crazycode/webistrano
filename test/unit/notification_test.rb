@@ -14,9 +14,7 @@ class NotificationTest < ActiveSupport::TestCase
     @expected = TMail::Mail.new
     @expected.set_content_type "text", "plain", { "charset" => CHARSET }
     @expected.mime_version = '1.0'
-  end
-
-  def test_sender_address
+    
     Notification.webistrano_sender_address = "FooBar"
     
     stage = create_new_stage
@@ -24,10 +22,15 @@ class NotificationTest < ActiveSupport::TestCase
     assert stage.deployment_possible?, stage.deployment_problems.inspect
     deployment = create_new_deployment(:stage => stage, :task => 'deploy')
     
-    mail = Notification.create_deployment(deployment, 'foo@bar.com')
-    
-    assert_equal ['FooBar'], mail.from
-    assert_equal ['foo@bar.com'], mail.to
+    @mail = Notification.create_deployment(deployment)
+  end
+
+  def test_sender_address
+    assert_equal ['FooBar'], @mail.from
+  end
+
+  def test_recipient_address
+    assert_equal [WebistranoConfig[:mail_recipient]], @mail.to
   end
 
   private

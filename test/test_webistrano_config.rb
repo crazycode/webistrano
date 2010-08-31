@@ -15,26 +15,16 @@ WebistranoConfig = {
   :smtp_delivery_method => :sendmail,
   
   :smtp_settings => {
-    :address  => "localhost",
-    :port  => 25, 
     #:domain  => "example.com",
     #:user_name  => "username",
     #:password  => "passwd",
     #:authentication  => :login
   },
   
-  # Tasks listed by default on a stage's main page. Entered here as [display_name, task_name]
-  :default_deployment_shortcuts => [
-    ['Deploy', 'deploy'],
-    ['Deploy and migrate', 'deploy:migrations'],
-    ['Restart app servers', 'deploy:restart'],
-    ['Setup', 'deploy:setup']
-  ],
-
   # Sender address for Webistrano emails
   :webistrano_sender_address => "webistrano@example.com",
   
-  # Deploy notices are sent to this address (no longer configured project-by-project)
+  # Recipient address for Webistrano e-mails
   :mail_recipient => "team@example.com",
   
   # Sender and recipient for Webistrano exceptions
@@ -45,8 +35,9 @@ WebistranoConfig = {
   # the endpoint that contains the JSON array of hosts that we can deploy to
   :frontman_hosts_endpoint => "http://localhost.localdomain/hosts.json",
   :frontman_host_set_name => "EC2-APP-POOL",
-
+  :default_deployment_shortcuts => [],
+  
   # For checking out repositories locally - allows us to do git log since last deploy
   :local_repository_dir => '/tmp'
-
+  
 }

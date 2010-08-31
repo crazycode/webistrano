@@ -11,7 +11,11 @@ RAILS_GEM_VERSION = '2.3.5' unless defined? RAILS_GEM_VERSION
 require File.join(File.dirname(__FILE__), 'boot')
 
 # load Webistrano configuration
-require "#{RAILS_ROOT}/config/webistrano_config"
+if RAILS_ENV == 'test'
+  require "#{RAILS_ROOT}/test/test_webistrano_config"
+else
+  require "#{RAILS_ROOT}/config/webistrano_config"
+end
 
 Rails::Initializer.run do |config|
 
@@ -35,6 +39,7 @@ Rails::Initializer.run do |config|
   config.gem 'highline', :version => '1.5.1'
   config.gem 'open4', :version => '0.9.3'
   config.gem 'syntax', :version => '1.0.0'
+  config.gem 'json'
 end
 
 require 'open4'

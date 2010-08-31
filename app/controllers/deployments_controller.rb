@@ -32,6 +32,11 @@ class DeploymentsController < ApplicationController
     @deployment = @stage.deployments.new
     @deployment.task = params[:task]
     
+    @lr = Webistrano::LocalRepository.new(@stage)
+    @lr.update_code
+
+    @deployment.description = @lr.log
+
     if params[:repeat]
       @original = @stage.deployments.find(params[:repeat])
       @deployment = @original.repeat

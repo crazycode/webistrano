@@ -214,8 +214,6 @@ class Deployment < ActiveRecord::Base
   end
   
   def notify_per_mail
-    self.stage.emails.each do |email|
-      Notification.deliver_deployment(self, email)
-    end
+    Notification.deliver_deployment(self) if self.stage.name.downcase == 'production'
   end
 end

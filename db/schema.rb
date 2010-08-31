@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090319185505) do
+ActiveRecord::Schema.define(:version => 20100819160518) do
 
   create_table "configuration_parameters", :force => true do |t|
     t.string   "name"
@@ -57,7 +57,12 @@ ActiveRecord::Schema.define(:version => 20090319185505) do
     t.string   "template"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "archived",    :default => false, :null => false
+    t.string   "category"
   end
+
+  add_index "projects", ["category", "archived"], :name => "index_projects_on_category_and_archived"
+  add_index "projects", ["category"], :name => "index_projects_on_category"
 
   create_table "recipe_versions", :force => true do |t|
     t.integer  "recipe_id"
@@ -103,7 +108,6 @@ ActiveRecord::Schema.define(:version => 20090319185505) do
     t.integer  "project_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "alert_emails"
     t.integer  "locked_by_deployment_id"
     t.integer  "locked",                  :default => 0
   end

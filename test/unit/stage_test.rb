@@ -4,7 +4,7 @@ class StageTest < ActiveSupport::TestCase
   
   def setup
     Stage.delete_all
-    @project = Project.create!(:name => 'Project 1', :template => 'rails')
+    @project = Project.create!(:name => 'Project 1', :template => 'rails', :category => 'Projects')
   end
 
   def test_creation_and_validation
@@ -131,27 +131,6 @@ class StageTest < ActiveSupport::TestCase
     
     assert_equal 1, @stage.prompt_configurations.size
     assert_equal 1, @stage.non_prompt_configurations.size
-  end
-  
-  def test_alert_emails_format
-    stage = create_new_stage
-    assert_nil stage.alert_emails
-    
-    stage.alert_emails = "michael@jackson.com"    
-    assert stage.valid?
-    
-    stage.alert_emails = "michael@example.com me@example.com"    
-    assert stage.valid?
-    assert_equal ['michael@example.com', 'me@example.com'], stage.emails
-    
-    stage.alert_emails = "michael@example.com me@example.com 123"    
-    assert !stage.valid?
-    
-    stage.alert_emails = "michael@example.com You <me@example.com>"    
-    assert !stage.valid?
-    
-    stage.alert_emails = "michael"    
-    assert !stage.valid?
   end
   
   def test_recent_deployments

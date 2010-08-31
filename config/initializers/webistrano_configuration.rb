@@ -5,8 +5,10 @@ end
 
 WEBISTRANO_VERSION = '1.5'
 
-ActionMailer::Base.delivery_method = WebistranoConfig[:smtp_delivery_method] 
-ActionMailer::Base.smtp_settings = WebistranoConfig[:smtp_settings] 
+unless Rails.env.test? # don't configure SMTP in test
+  ActionMailer::Base.delivery_method = WebistranoConfig[:smtp_delivery_method] 
+  ActionMailer::Base.smtp_settings = WebistranoConfig[:smtp_settings] 
+end
 
 Notification.webistrano_sender_address = WebistranoConfig[:webistrano_sender_address]
 

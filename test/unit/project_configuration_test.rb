@@ -11,7 +11,7 @@ class ProjectConfigurationTest < ActiveSupport::TestCase
   end
   
   def test_uniqiness_of_name
-    p = Project.new(:name => 'First')
+    p = Project.new(:name => 'First', :category => 'Projects')
     p.template = 'rails'
     p.save!
     

@@ -1,5 +1,6 @@
 require 'webistrano/extensions'
 require 'webistrano/configuration'
+require 'webistrano/local_repository'
 require 'webistrano/logger'
 require 'webistrano/deployer'
 require 'webistrano/template'
